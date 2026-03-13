@@ -1,7 +1,7 @@
-// 模拟在线存储 - 实际项目中应使用真实的后端API
-let onlineStorage = {
-    reasons: []
-};
+// Supabase配置 - 请替换为你的项目信息
+const supabaseUrl = 'https://phiajrpyogytemhvuvsr.supabase.co';
+const supabaseKey = 'process.env.SUPABASE_KEY';
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 // 初始化页面
 document.addEventListener('DOMContentLoaded', function() {
@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
 });
 
-// 从在线存储加载请假理由
+// 从Supabase加载请假理由
 function loadReasons() {
-    // 模拟从服务器获取数据
+    // 从Supabase获取数据
     fetchReasonsFromServer()
         .then(reasons => {
             renderReasons(reasons);
@@ -24,27 +24,30 @@ function loadReasons() {
         });
 }
 
-// 模拟从服务器获取数据
+// 从Supabase获取数据
 function fetchReasonsFromServer() {
-    return new Promise((resolve, reject) => {
-        // 模拟网络请求延迟
-        setTimeout(() => {
-            // 实际项目中这里应该是真实的API调用
-            resolve(onlineStorage.reasons);
-        }, 500);
-    });
+    return supabase
+        .from('reasons')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .then(({ data, error }) => {
+            if (error) {
+                throw error;
+            }
+            return data;
+        });
 }
 
-// 保存数据到服务器
-function saveReasonsToServer(reasons) {
-    return new Promise((resolve, reject) => {
-        // 模拟网络请求延迟
-        setTimeout(() => {
-            // 实际项目中这里应该是真实的API调用
-            onlineStorage.reasons = reasons;
-            resolve();
-        }, 500);
-    });
+// 保存数据到Supabase
+function saveReasonsToServer(newReason) {
+    return supabase
+        .from('reasons')
+        .insert(newReason)
+        .then(({ error }) => {
+            if (error) {
+                throw error;
+            }
+        });
 }
 
 // 从本地存储获取请假理由（作为备用）
@@ -132,20 +135,13 @@ function submitReason() {
     
     // 创建新的请假理由
     const newReason = {
-        id: Date.now(),
         content: content,
         category: category,
-        timestamp: new Date().toISOString()
+        created_at: new Date().toISOString()
     };
     
-    // 获取现有理由并添加新理由
-    fetchReasonsFromServer()
-        .then(reasons => {
-            reasons.push(newReason);
-            
-            // 保存到服务器
-            return saveReasonsToServer(reasons);
-        })
+    // 保存到Supabase
+    saveReasonsToServer(newReason)
         .then(() => {
             // 重新渲染理由列表
             loadReasons();
@@ -161,7 +157,11 @@ function submitReason() {
             console.error('提交失败:', error);
             // 失败时使用本地存储作为备用
             const reasons = getReasonsFromLocalStorage();
-            reasons.push(newReason);
+            reasons.push({
+                id: Date.now(),
+                ...newReason,
+                timestamp: newReason.created_at
+            });
             saveReasonsToLocalStorage(reasons);
             
             // 重新渲染理由列表
