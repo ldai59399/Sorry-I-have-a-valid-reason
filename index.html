@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>不好意思我有事</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>不好意思我有事</h1>
+        </header>
+        
+        <nav class="category-nav">
+            <button class="category-btn active" data-category="all">全部</button>
+            <button class="category-btn" data-category="sick">病假</button>
+            <button class="category-btn" data-category="personal">事假</button>
+        </nav>
+        
+        <div class="action-section">
+            <button id="add-reason-btn">我要请假</button>
+        </div>
+        
+        <div class="submit-section" id="submitSection" style="display: none;">
+            <div class="input-group">
+                <label for="reason">请假理由：</label>
+                <textarea id="reason" placeholder="请输入请假理由（至少5个字）" maxlength="500"></textarea>
+            </div>
+            <div class="input-group">
+                <label for="category">请假类别：</label>
+                <select id="category">
+                    <option value="personal">事假</option>
+                    <option value="sick">病假</option>
+                </select>
+            </div>
+            <div class="submit-buttons">
+                <button id="submit-btn">提交理由</button>
+                <button id="cancel-btn">取消</button>
+            </div>
+        </div>
+        
+        <div class="reason-list" id="reasonList">
+            <!-- 请假理由将通过JS动态添加 -->
+        </div>
+        
+        <footer>
+            <p>本网页支持匿名提交、匿名查看，所有内容仅作参考，请勿用于违规用途</p>
+        </footer>
+    </div>
+    
+    <div class="notification" id="notification"></div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
