@@ -1,6 +1,6 @@
 // Supabase配置 - 请替换为你的项目信息
 const supabaseUrl = 'https://phiajrpyogytemhvuvsr.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBoaWFqcnB5b2d5dGVtaHZ1dnNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0MTQxODksImV4cCI6MjA4ODk5MDE4OX0.o9uRPNwIGtKUq01VgGPUJgvJLGU6Kb5BBgtD4fClvqc';
+const supabaseKey = 'sb_publishable_agsHqIP9BxSsk07nufZmSA_5bACWwB3';
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 // 初始化页面
