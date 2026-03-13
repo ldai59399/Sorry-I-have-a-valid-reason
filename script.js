@@ -1,6 +1,6 @@
 // Supabase配置 - 请替换为你的项目信息
 const supabaseUrl = 'https://phiajrpyogytemhvuvsr.supabase.co';
-const supabaseKey = 'process.env.SUPABASE_KEY';
+const supabaseKey = 'sb_publishable_agsHqIP9BxSsk07nufZmSA_5bACWwB3';
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 // 初始化页面
